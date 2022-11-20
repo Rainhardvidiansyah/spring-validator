@@ -50,11 +50,36 @@ public class ValidatorFactoryTest {
         Assertions.assertEquals(2, constraintViolations.size());
 
         for(ConstraintViolation<Person> constraintViolation : constraintViolations){
-            System.out.println(constraintViolation.getMessage());
+            System.out.println("Message: " + constraintViolation.getMessage());
+            System.out.println("Bean: " + constraintViolation.getLeafBean());
+            System.out.println("Annotation: " + constraintViolation.getConstraintDescriptor().getAnnotation());
+            System.out.println("Invalid value: " + constraintViolation.getInvalidValue());
+//            System.out.println("For each constrains violation: ");
+//            constraintViolation.getPropertyPath().forEach(item -> System.out.println(item.getName()));
         }
-
-
         validatorFactory.close();
+    }
+
+
+    @Test
+    void personDataSizeTest() {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Person person = new Person();
+        person.setName("rainhard vidi");
+        person.setEmail("rainhard@gmail.com");
+        Set<ConstraintViolation<Person>> constraintViolations = validator.validate(person);
+        Assertions.assertEquals(2, constraintViolations.size());
+        for(ConstraintViolation<Person> constraintViolation : constraintViolations){
+            System.out.println("Message: " + constraintViolation.getMessage());
+            System.out.println("Bean: " + constraintViolation.getLeafBean());
+            System.out.println("Annotation: " + constraintViolation.getConstraintDescriptor().getAnnotation());
+            System.out.println("Invalid value: " + constraintViolation.getInvalidValue());
+//            System.out.println("For each constrains violation: ");
+//            constraintViolation.getPropertyPath().forEach(item -> System.out.println(item.getName()));
+        }
+        validatorFactory.close();
+
 
     }
 }
